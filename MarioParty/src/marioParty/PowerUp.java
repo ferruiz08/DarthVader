@@ -1,5 +1,8 @@
 package marioParty;
 
-public class PowerUp {
+public abstract class PowerUp {
 
+	protected int tipo;
+	
+	public void accionPowerUp(Player player) {}
 }
