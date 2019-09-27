@@ -23,7 +23,6 @@ public class Player {
 	
 	//Suma puntos al jugador. Se utiliza cuando agarra una monedita o segun el ranking del minijuego
 	public void addPoints (int points) {
-		
 		this.points += points;
 	}
 	
@@ -42,50 +41,21 @@ public class Player {
 		return extraTurn;
 	}
 	
-	//Ejecuta el turno del jugador. Se llama en el GameController en cada turno
-	public void ejecutarTurno() throws IOException {
-		imprimirUbicacion();
-		ArrayList<String> movimientosPosibles = new ArrayList<String>();
-		int movimientosRestantes = tirarDado();
-		System.out.println("Dado: " + movimientosRestantes);
-		int movimientoHechos = 0;
-		while (movimientoHechos < movimientosRestantes) {
-			//Pregunto que movimientos puede hacer
-			movimientosPosibles = GameBoard.movimientosPosibles(ubicacion, ubicacionAnterior);
-			if (movimientosPosibles.size() > 1) {
-				//Si hay mas de uno posible, pido que se ingrese por pantalla
-				for (int i = 0 ; i < movimientosPosibles.size() ; i++ )
-					System.out.println("Movimiento Posible: " + movimientosPosibles.get(i));
-				InputStreamReader in = new InputStreamReader(System.in);
-	            BufferedReader br = new BufferedReader(in);
-	            String movimientoInput = br.readLine();
-	            //Chequeo que el movimiento ingresado sea posible
-	            if (movimientosPosibles.contains(movimientoInput)) {
-	            	mover(movimientoInput);
-	            	movimientoHechos++;
-	            }
-	            
-			}
-			else {
-				mover(movimientosPosibles.get(0));
-				movimientoHechos++;
-			}
-			imprimirUbicacion();
-			System.out.println("Movimientos Hecho: " + movimientoHechos);
-			System.out.println("Movimientos Restantes: " + (movimientosRestantes - movimientoHechos));
-				
-		}
+	public Ubicacion getUbicacion() {
+		return this.ubicacion;
+	}
+	public Ubicacion getUbicacionAnterior() {
+		return this.ubicacionAnterior;
 	}
 	
-	//Mueve al jugador una posicion en la direccion indicada
-	private void mover(String direccion) {
-		//Guardo la ubicacion para saber que en el proximo movimiento no puedo volver
-		ubicacionAnterior.setUbicacion(ubicacion.positionX, ubicacion.positionY);
-		this.ubicacion = GameBoard.mover(ubicacion, direccion);
-		//Despues de mover inserto el jugador en el casillero
-		GameBoard.setJugadorCasillero(this, ubicacion);
-		//Chequeo si en el casillero hay un powerup
-		GameBoard.accionPowerUp(this, ubicacion);
+	public void setUbicacion(Ubicacion ubicacion) {
+		this.ubicacion.positionX = ubicacion.positionX;
+		this.ubicacion.positionY = ubicacion.positionY;
+	}
+	
+	public void setUbicacionAnterior(Ubicacion ubicacion) {
+		this.ubicacionAnterior.positionX = ubicacion.positionX;
+		this.ubicacionAnterior.positionY = ubicacion.positionY;
 	}
 	
 	public void imprimirUbicacion() {
@@ -93,7 +63,7 @@ public class Player {
 		System.out.println("Posicion Actual Y: " + ubicacion.positionY);
 	}
 	
-	private int tirarDado() {
+	public int tirarDado() {
 		Random random = new Random();
 		return random.nextInt(6)+1;
 	}

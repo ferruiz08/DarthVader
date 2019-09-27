@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class GameBoard {
 	
-	static Casillero[][] casillero;
+	Casillero[][] casillero;
 	
 	public GameBoard () {
 		casillero = new Casillero [5][5];
@@ -56,23 +56,23 @@ public class GameBoard {
 		casillero[4][4] = new Casillero(s9);
 	}
 	
-	public static boolean canGoUp(int x, int y) {
+	public boolean canGoUp(int x, int y) {
 		return casillero[x][y].canGoUp();
 	}
 	
-	public static boolean canGoDown(int x, int y) {
+	public boolean canGoDown(int x, int y) {
 		return casillero[x][y].canGoDown();
 	}
 	
-	public static boolean canGoLeft(int x, int y) {
+	public boolean canGoLeft(int x, int y) {
 		return casillero[x][y].canGoLeft();
 	}
 
-	public static boolean canGoRight(int x, int y) {
+	public boolean canGoRight(int x, int y) {
 		return casillero[x][y].canGoRight();
 	}
 	
-	public static Ubicacion mover(Ubicacion ubicacion, String direccion) {
+	public Ubicacion mover(Ubicacion ubicacion, String direccion) {
 		
 		if (direccion.contains("Arriba") && canGoUp(ubicacion.positionX,ubicacion.positionY)) 
 			ubicacion.positionY--; 
@@ -85,7 +85,7 @@ public class GameBoard {
 		return ubicacion;
 	}
 
-	public static ArrayList<String> movimientosPosibles(Ubicacion ubicacion, Ubicacion ubicacionAnterior) {
+	public ArrayList<String> movimientosPosibles(Ubicacion ubicacion, Ubicacion ubicacionAnterior) {
 		ArrayList<String> movimientosPosibles = new ArrayList<String>();
 		boolean canGoUp = canGoUp(ubicacion.positionX,ubicacion.positionY);
 		boolean canGoDown = canGoDown(ubicacion.positionX,ubicacion.positionY);
@@ -110,11 +110,11 @@ public class GameBoard {
 		return movimientosPosibles;
 	}
 	
-	public static void setJugadorCasillero(Player player , Ubicacion ubicacion) {
+	public void setJugadorCasillero(Player player , Ubicacion ubicacion) {
 		casillero[ubicacion.positionX][ubicacion.positionY].setPlayer(player);
 	}
 	
-	public static void accionPowerUp(Player player , Ubicacion ubicacion) {
+	public void accionPowerUp(Player player , Ubicacion ubicacion) {
 		casillero[ubicacion.positionX][ubicacion.positionY].accionPowerUp(player);
 	}
 	

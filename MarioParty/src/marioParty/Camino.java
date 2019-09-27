@@ -10,7 +10,6 @@ public class Camino {
 	public Camino(String[] movimientosPosibles) {
 		for (int i = 0 ; i < movimientosPosibles.length ; i++)
 			this.movimientosPosibles.add(movimientosPosibles[i]);
-		this.movimientosPosibles.sort(null);
 	}
 	
 	boolean canGoUp(){

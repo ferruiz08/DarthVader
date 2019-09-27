@@ -10,9 +10,9 @@ public class Ubicacion {
 		this.positionY = y;
 	}
 
-	public void setUbicacion(int x , int y) {
-		this.positionX = x;
-		this.positionY = y;
+	public void setUbicacion(Ubicacion ubicacion) {
+		this.positionX = ubicacion.positionX;
+		this.positionY = ubicacion.positionY;
 	}
 	
 	
