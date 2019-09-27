@@ -1,26 +1,24 @@
 package marioParty;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Casillero {
 	
-	ArrayList<Player> ListPlayer = new ArrayList<Player>();
-	Camino camino;
-	boolean hayMonedita; //La moneda da puntos
-	boolean hayEstrella; //La estrella de un turno extra
-	
-
+	private ArrayList<Player> listPlayer = new ArrayList<Player>();
+	private Camino camino;
+	private PowerUp powerUp;
 	
 	public Casillero(String[] tipoCamino) {
 		camino = new Camino(tipoCamino);
 	}
 	
 	public void setPlayer(Player player){
-		ListPlayer.add(player);
+		listPlayer.add(player);
 	}
 	
 	public void removePlayer(Player player) {
-		ListPlayer.remove(player);
+		listPlayer.remove(player);
 		//Hay que buscar en que indice de la lista esta el objecto player y removerlo por indice
 	}
 	
@@ -40,5 +38,30 @@ public class Casillero {
 		return this.camino.canGoRight();
 	}
 	
+	public boolean casilleroVacio() {
+		return (listPlayer.isEmpty() && powerUp == null);
+	}
+	
+	//Genera aleatoriamente un powerup en el casillero de un tipo aleatorio solo si el casillero esta vacio
+	public void generarPowerUp(){
+		if (casilleroVacio()) {
+			Random random = new Random();
+			//Hay un 25% de probabilidades de que se genere un powerup
+			if (random.nextInt(4)+1 == 1 ) {
+				int tipoPowerUp = random.nextInt(PowerUp.cantTipos)+1;
+				if (tipoPowerUp == 1)
+					powerUp = new Monedita(10);
+				if (tipoPowerUp == 2)
+					powerUp = new Estrella();
+			}
+		}
+		
+	}
+	
+	//Ejecuta la accion del powerup cuando el player entra en el casillero
+	public void accionPowerUp(Player player) {
+		if (powerUp != null)
+		powerUp.accionPowerUp(player);
+	}
 	
 }

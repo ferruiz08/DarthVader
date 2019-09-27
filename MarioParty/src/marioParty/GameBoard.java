@@ -110,4 +110,12 @@ public class GameBoard {
 		return movimientosPosibles;
 	}
 	
+	public static void setJugadorCasillero(Player player , Ubicacion ubicacion) {
+		casillero[ubicacion.positionX][ubicacion.positionY].setPlayer(player);
+	}
+	
+	public static void accionPowerUp(Player player , Ubicacion ubicacion) {
+		casillero[ubicacion.positionX][ubicacion.positionY].accionPowerUp(player);
+	}
+	
 }

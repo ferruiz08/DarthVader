@@ -21,6 +21,7 @@ public class GameController {
 			listPlayer.add(player);
 		}
 		
+		//Genera los caminos del tablero cuando inicia el juego
 		gameboard.generarCaminos();
 			
 	}
@@ -30,7 +31,9 @@ public class GameController {
 		System.out.println("Es el turno del jugador nro: " + turnoPlayer);
 		listPlayer.get(turnoPlayer).ejecutarTurno();
 		contTurnos++;
-		turnoPlayer++;
+		//Si el jugador tiene un turno extra no cambio el turno al siguiente jugador
+		if (!listPlayer.get(turnoPlayer).hasExtraTurn())
+			turnoPlayer++;
 		if (turnoPlayer >= cantPlayers)
 			turnoPlayer = 0;
 	}

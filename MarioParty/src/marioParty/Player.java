@@ -8,11 +8,11 @@ import java.util.Random;
 
 public class Player {
 	
-	int id;
-	int points;
-	Ubicacion ubicacion; //Ubicacion actual en el tablero
-	Ubicacion ubicacionAnterior; //Ubicacion anterior en el tablero para que no me deje regresar
-	boolean extraTurn; //Si agarro una estrella tengo que setear este bit e informar al gameController que tengo otro turno mas
+	private int id;
+	private int points;
+	private Ubicacion ubicacion; //Ubicacion actual en el tablero
+	private Ubicacion ubicacionAnterior; //Ubicacion anterior en el tablero para que no me deje regresar
+	private boolean extraTurn; //Si agarro una estrella tengo que setear este bit e informar al gameController que tengo otro turno mas
 	
 	public Player(int id) {
 		this.id = id;
@@ -21,11 +21,32 @@ public class Player {
 		ubicacionAnterior = new Ubicacion(0,0);
 	}
 	
+	//Suma puntos al jugador. Se utiliza cuando agarra una monedita o segun el ranking del minijuego
+	public void addPoints (int points) {
+		
+		this.points += points;
+	}
+	
+	//Devuelve los puntos actuales del jugador
+	public int getPoints () {
+		return this.points;
+	}
+	
+	//Genera un turno extra para el jugador. Se utiliza cuando agarra una estrella
+	public void setExtraTurn() {
+		this.extraTurn = true;
+	}
+	
+	//Devuelve verdadero si tiene un turno extra. Se utilza en el GameController antes de avanzar de turno
+	public boolean hasExtraTurn() {
+		return extraTurn;
+	}
+	
+	//Ejecuta el turno del jugador. Se llama en el GameController en cada turno
 	public void ejecutarTurno() throws IOException {
 		imprimirUbicacion();
 		ArrayList<String> movimientosPosibles = new ArrayList<String>();
-		Random random = new Random();
-		int movimientosRestantes = random.nextInt(6)+1;
+		int movimientosRestantes = tirarDado();
 		System.out.println("Dado: " + movimientosRestantes);
 		int movimientoHechos = 0;
 		while (movimientoHechos < movimientosRestantes) {
@@ -56,16 +77,25 @@ public class Player {
 		}
 	}
 	
-	void mover(String direccion) {
+	//Mueve al jugador una posicion en la direccion indicada
+	private void mover(String direccion) {
 		//Guardo la ubicacion para saber que en el proximo movimiento no puedo volver
 		ubicacionAnterior.setUbicacion(ubicacion.positionX, ubicacion.positionY);
-		GameBoard.mover(ubicacion, direccion);
+		this.ubicacion = GameBoard.mover(ubicacion, direccion);
+		//Despues de mover inserto el jugador en el casillero
+		GameBoard.setJugadorCasillero(this, ubicacion);
+		//Chequeo si en el casillero hay un powerup
+		GameBoard.accionPowerUp(this, ubicacion);
 	}
 	
-	void imprimirUbicacion() {
+	public void imprimirUbicacion() {
 		System.out.println("Posicion Actual X: " + ubicacion.positionX);
 		System.out.println("Posicion Actual Y: " + ubicacion.positionY);
 	}
 	
+	private int tirarDado() {
+		Random random = new Random();
+		return random.nextInt(6)+1;
+	}
 	
 }

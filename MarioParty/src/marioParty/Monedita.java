@@ -11,7 +11,7 @@ public class Monedita extends PowerUp {
 	
 	public void accionPowerUp(Player player) {
 		
-		player.points += puntosMoneda;
+		player.addPoints(puntosMoneda);
 		
 	}
 	
