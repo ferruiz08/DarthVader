@@ -9,16 +9,13 @@ import java.util.Random;
 public class Player {
 	
 	int id;
-	int lives;
 	int points;
-	Character character;
-	Ubicacion ubicacion;
-	Ubicacion ubicacionAnterior;
-	boolean myTurn;
+	Ubicacion ubicacion; //Ubicacion actual en el tablero
+	Ubicacion ubicacionAnterior; //Ubicacion anterior en el tablero para que no me deje regresar
+	boolean extraTurn; //Si agarro una estrella tengo que setear este bit e informar al gameController que tengo otro turno mas
 	
 	public Player(int id) {
 		this.id = id;
-		this.lives = 5;
 		this.points = 0;
 		ubicacion = new Ubicacion(0,0);
 		ubicacionAnterior = new Ubicacion(0,0);

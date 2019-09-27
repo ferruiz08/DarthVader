@@ -5,8 +5,9 @@ import java.util.ArrayList;
 public class Casillero {
 	
 	ArrayList<Player> ListPlayer = new ArrayList<Player>();
-	PowerUp powerUp;
 	Camino camino;
+	boolean hayMonedita; //La moneda da puntos
+	boolean hayEstrella; //La estrella de un turno extra
 	
 
 	
@@ -20,14 +21,7 @@ public class Casillero {
 	
 	public void removePlayer(Player player) {
 		ListPlayer.remove(player);
-	}
-	
-	public void setPowerUp(PowerUp powerUp){
-		this.powerUp = powerUp;
-	}
-	
-	public void removePowerUp(PowerUp powerUp) {
-		this.powerUp = null;
+		//Hay que buscar en que indice de la lista esta el objecto player y removerlo por indice
 	}
 	
 	public boolean canGoUp() {
