@@ -13,19 +13,19 @@ public class Camino {
 	}
 	
 	boolean canGoUp(){
-		return movimientosPosibles.contains("Arriba");
+		return movimientosPosibles.contains("w");
 	}
 	
 	boolean canGoDown(){
-		return movimientosPosibles.contains("Abajo");
+		return movimientosPosibles.contains("s");
 	}
 	
 	boolean canGoLeft(){
-		return movimientosPosibles.contains("Izquierda");
+		return movimientosPosibles.contains("a");
 	}
 	
 	boolean canGoRight(){
-		return movimientosPosibles.contains("Derecha");
+		return movimientosPosibles.contains("d");
 	}
 	
 	

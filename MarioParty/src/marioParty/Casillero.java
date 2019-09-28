@@ -50,9 +50,9 @@ public class Casillero {
 			if (random.nextInt(4)+1 == 1 ) {
 				int tipoPowerUp = random.nextInt(PowerUp.cantTipos)+1;
 				if (tipoPowerUp == 1)
-					powerUp = new Monedita(10);
+					powerUp = new Monedita(1,10);
 				if (tipoPowerUp == 2)
-					powerUp = new Estrella();
+					powerUp = new Estrella(2);
 			}
 		}
 		
@@ -60,8 +60,15 @@ public class Casillero {
 	
 	//Ejecuta la accion del powerup cuando el player entra en el casillero
 	public void accionPowerUp(Player player) {
-		if (powerUp != null)
-		powerUp.accionPowerUp(player);
+		if (powerUp != null) {
+			powerUp.accionPowerUp(player);
+			if (powerUp.tipo == 1)
+				System.out.println("AGARRASTE UNA MONEDITA");
+			if (powerUp.tipo == 2)
+				System.out.println("AGARRASTE UNA ESTRELLA");
+			powerUp = null;
+		}
+		
 	}
 	
 }

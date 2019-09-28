@@ -1,6 +1,7 @@
 package marioParty;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameBoard {
 	
@@ -14,16 +15,16 @@ public class GameBoard {
 	public void generarCaminos() {
 		
 		//Genero el tablero de la foto de la consigna
-		String[] s1 = {"Arriba","Derecha"};
-		String[] s2 = {"Izquierda","Derecha"};
-		String[] s3 = {"Izquierda","Abajo"};
-		String[] s4 = {"Derecha","Abajo"};
-		String[] s5 = {"Arriba","Derecha"};
-		String[] s6 = {"Arriba","Abajo","Derecha"};
-		String[] s7 = {"Arriba","Abajo","Izquierda"};
-		String[] s8 = {"Arriba","Abajo"};
-		String[] s9 = {"Arriba","Izquierda"};
-		String[] s10 = {"Arriba","Abajo","Izquierda","Derecha"};
+		String[] s1 = {"w","d"};
+		String[] s2 = {"a","d"};
+		String[] s3 = {"a","s"};
+		String[] s4 = {"d","s"};
+		String[] s5 = {"w","d"};
+		String[] s6 = {"w","s","d"};
+		String[] s7 = {"w","s","a"};
+		String[] s8 = {"w","s"};
+		String[] s9 = {"w","a"};
+		String[] s10 = {"w","s","a","d"};
 		
 		casillero[0][0] = new Casillero(s4);
 		casillero[1][0] = new Casillero(s2);
@@ -74,13 +75,13 @@ public class GameBoard {
 	
 	public Ubicacion mover(Ubicacion ubicacion, String direccion) {
 		
-		if (direccion.contains("Arriba") && canGoUp(ubicacion.positionX,ubicacion.positionY)) 
+		if (direccion.contains("w") && canGoUp(ubicacion.positionX,ubicacion.positionY)) 
 			ubicacion.positionY--; 
-		if (direccion.contains("Abajo") && canGoDown(ubicacion.positionX,ubicacion.positionY))
+		if (direccion.contains("s") && canGoDown(ubicacion.positionX,ubicacion.positionY))
 			ubicacion.positionY++;
-		if (direccion.contains("Izquierda") && canGoLeft(ubicacion.positionX,ubicacion.positionY))
+		if (direccion.contains("a") && canGoLeft(ubicacion.positionX,ubicacion.positionY))
 			ubicacion.positionX--;
-		if (direccion.contains("Derecha") && canGoRight(ubicacion.positionX,ubicacion.positionY))
+		if (direccion.contains("d") && canGoRight(ubicacion.positionX,ubicacion.positionY))
 			ubicacion.positionX++; 
 		return ubicacion;
 	}
@@ -100,18 +101,39 @@ public class GameBoard {
 		if (ubicacionAnterior.positionY < ubicacion.positionY)
 			canGoUp = false;
 		if (canGoRight)
-			movimientosPosibles.add("Derecha");
+			movimientosPosibles.add("d");
 		if (canGoLeft)
-			movimientosPosibles.add("Izquierda");
+			movimientosPosibles.add("a");
 		if (canGoUp)
-			movimientosPosibles.add("Arriba");
+			movimientosPosibles.add("w");
 		if (canGoDown)
-			movimientosPosibles.add("Abajo");
+			movimientosPosibles.add("s");
 		return movimientosPosibles;
 	}
 	
 	public void setJugadorCasillero(Player player , Ubicacion ubicacion) {
 		casillero[ubicacion.positionX][ubicacion.positionY].setPlayer(player);
+	}
+	
+	public void removeJugadorCasillero(Player player , Ubicacion ubicacion) {
+		casillero[ubicacion.positionX][ubicacion.positionY].removePlayer(player);
+	}
+	
+	public void generarPowerUp(Ubicacion ubicacion) {
+		casillero[ubicacion.positionX][ubicacion.positionY].generarPowerUp();
+	}
+	
+	public void generarPowerUpTurno() {
+		Random random = new Random();
+		int x = random.nextInt(casillero.length);
+		int y = random.nextInt(casillero[1].length);
+		casillero[x][y].generarPowerUp();
+	}
+	
+	public void generarPowerUpInicio() {
+		for (int x = 0 ; x < casillero.length ; x++)
+			for (int y = 0 ; y < casillero[x].length ; y++)
+				casillero[x][y].generarPowerUp();
 	}
 	
 	public void accionPowerUp(Player player , Ubicacion ubicacion) {

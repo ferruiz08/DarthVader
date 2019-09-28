@@ -4,8 +4,8 @@ public class Monedita extends PowerUp {
 
 	public int puntosMoneda;
 	
-	public Monedita(int puntosMoneda) {
-		
+	public Monedita(int tipo , int puntosMoneda) {
+		this.tipo = tipo;
 		this.puntosMoneda = puntosMoneda;
 	}
 	

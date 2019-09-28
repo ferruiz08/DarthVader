@@ -21,6 +21,10 @@ public class Player {
 		ubicacionAnterior = new Ubicacion(0,0);
 	}
 	
+	public int getId() {
+		return this.id;
+	}
+	
 	//Suma puntos al jugador. Se utiliza cuando agarra una monedita o segun el ranking del minijuego
 	public void addPoints (int points) {
 		this.points += points;
@@ -59,8 +63,7 @@ public class Player {
 	}
 	
 	public void imprimirUbicacion() {
-		System.out.println("Posicion Actual X: " + ubicacion.positionX);
-		System.out.println("Posicion Actual Y: " + ubicacion.positionY);
+		System.out.println("Posicion Actual:( " + ubicacion.positionX + " , " + ubicacion.positionY + " )");
 	}
 	
 	public int tirarDado() {
