@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GameController {
 	
@@ -12,6 +13,8 @@ public class GameController {
 	int cantPlayers;
 	int puntajeGanador;
 	boolean finDeJuego;
+	private static Scanner teclado;
+	private static String seguir;
 	GameBoard gameboard = new GameBoard();
 	ArrayList<Player> listPlayer = new ArrayList<Player>();
 
@@ -57,12 +60,13 @@ public class GameController {
 	//Ejecuta el turno del jugador. Se llama en el GameController en cada turno
 		public void ejecutarTurno(Player player) throws IOException {
 			player.imprimirUbicacion();
+			System.out.println("\t **Nuevo Movimiento**");
 			System.out.println("Puntaje Actual: " + player.getPoints());
 			ArrayList<String> movimientosPosibles = new ArrayList<String>();
 			int movimientosRestantes = player.tirarDado();
 			System.out.println("Dado: " + movimientosRestantes);
 			int movimientoHechos = 0;
-			while (movimientoHechos < movimientosRestantes) {
+			while (movimientoHechos < movimientosRestantes && !finDeJuego) {
 				//Pregunto que movimientos puede hacer
 				movimientosPosibles = gameboard.movimientosPosibles(player.getUbicacion(), player.getUbicacionAnterior());
 				if (movimientosPosibles.size() > 1) {
@@ -82,9 +86,13 @@ public class GameController {
 		            
 				}
 				else {
-					System.out.println("Unico movimiento posible");
-					mover(player,movimientosPosibles.get(0));
+					System.out.println("Unico movimiento posible: " + movimientosPosibles.get(0));
+					teclado = new Scanner(System.in);
+				    System.out.print("Presiona una tecla para continuar...");
+				    seguir = teclado.nextLine();
+				    mover(player,movimientosPosibles.get(0));
 					movimientoHechos++;
+
 				}
 				player.imprimirUbicacion();
 				System.out.println("Movimientos Hecho: " + movimientoHechos + " ------ Movimientos Restantes: " + (movimientosRestantes - movimientoHechos));
@@ -104,6 +112,7 @@ public class GameController {
 			//Chequeo si en el casillero hay un powerup
 			gameboard.accionPowerUp(player, player.getUbicacion());
 			//Imprimo el puntaje del jugador
+			System.out.println("\t **Nuevo Movimiento**");
 			System.out.println("Puntaje Actual: " + player.getPoints());
 			
 			if(player.getPoints()>=puntajeGanador) {
