@@ -1,76 +1,36 @@
 package marioParty;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class GameBoard {
 	
-	Casillero[][] casillero;
+	HashMap<Ubicacion,Casillero> casillero;
 	
 	public GameBoard () {
-		casillero = new Casillero [5][5];
+		casillero = new HashMap<Ubicacion,Casillero>();
 		
 	}
 	
 	public void generarCaminos() {
 		
-		//Genero el tablero de la foto de la consigna
-		String[] s1 = {"w","d"};
-		String[] s2 = {"a","d"};
-		String[] s3 = {"a","s"};
-		String[] s4 = {"d","s"};
-		String[] s5 = {"w","d"};
-		String[] s6 = {"w","s","d"};
-		String[] s7 = {"w","s","a"};
-		String[] s8 = {"w","s"};
-		String[] s9 = {"w","a"};
-		String[] s10 = {"w","s","a","d"};
-		
-		casillero[0][0] = new Casillero(s4);
-		casillero[1][0] = new Casillero(s2);
-		casillero[2][0] = new Casillero(s3);
-		casillero[3][0] = new Casillero(s4);
-		casillero[4][0] = new Casillero(s3);
-		
-		casillero[0][1] = new Casillero(s6);
-		casillero[1][1] = new Casillero(s3);
-		casillero[2][1] = new Casillero(s6);
-		casillero[3][1] = new Casillero(s7);
-		casillero[4][1] = new Casillero(s8);
-		
-		casillero[0][2] = new Casillero(s6);
-		casillero[1][2] = new Casillero(s10);
-		casillero[2][2] = new Casillero(s10);
-		casillero[3][2] = new Casillero(s10);
-		casillero[4][2] = new Casillero(s7);
-		
-		casillero[0][3] = new Casillero(s6);
-		casillero[1][3] = new Casillero(s4);
-		casillero[2][3] = new Casillero(s3);
-		casillero[3][3] = new Casillero(s1);
-		casillero[4][3] = new Casillero(s7);
-		
-		casillero[0][4] = new Casillero(s1);
-		casillero[1][4] = new Casillero(s9);
-		casillero[2][4] = new Casillero(s5);
-		casillero[3][4] = new Casillero(s2);
-		casillero[4][4] = new Casillero(s9);
 	}
 	
 	public boolean canGoUp(int x, int y) {
-		return casillero[x][y].canGoUp();
+		return true;
 	}
 	
 	public boolean canGoDown(int x, int y) {
-		return casillero[x][y].canGoDown();
+		return true;
 	}
 	
 	public boolean canGoLeft(int x, int y) {
-		return casillero[x][y].canGoLeft();
+		return true;
 	}
 
 	public boolean canGoRight(int x, int y) {
-		return casillero[x][y].canGoRight();
+		return true;
 	}
 	
 	public Ubicacion mover(Ubicacion ubicacion, String direccion) {

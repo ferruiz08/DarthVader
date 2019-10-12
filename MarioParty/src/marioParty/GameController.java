@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.sun.prism.Image;
+
 public class GameController {
 	
 	int contTurnos;

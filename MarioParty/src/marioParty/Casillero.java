@@ -1,16 +1,26 @@
 package marioParty;
 
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
+
 public class Casillero {
 	
+	private Ubicacion ubicacion;
 	private ArrayList<Player> listPlayer = new ArrayList<Player>();
-	private Camino camino;
+	private ArrayList<Casillero> listCasillero = new ArrayList<Casillero>();
 	private PowerUp powerUp;
 	
-	public Casillero(String[] tipoCamino) {
-		camino = new Camino(tipoCamino);
+	public Casillero(int x , int y) {
+		
+		ubicacion.positionX = x;
+		ubicacion.positionY = y;
+		
 	}
 	
 	public void setPlayer(Player player){
@@ -23,19 +33,19 @@ public class Casillero {
 	}
 	
 	public boolean canGoUp() {
-		return this.camino.canGoUp();
+		return true;
 	}
 	
 	public boolean canGoDown() {
-		return this.camino.canGoDown();
+		return true;
 	}
 	
 	public boolean canGoLeft() {
-		return this.camino.canGoLeft();
+		return true;
 	}
 
 	public boolean canGoRight() {
-		return this.camino.canGoRight();
+		return true;
 	}
 	
 	public boolean casilleroVacio() {
