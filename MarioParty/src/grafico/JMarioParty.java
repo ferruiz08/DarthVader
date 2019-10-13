@@ -4,28 +4,28 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
+import marioParty.GameController;
+
 public class JMarioParty extends JFrame {
 
-	public JMarioParty() throws IOException {
+	GameController gameController;
+	
+	public JMarioParty(GameController gameController) throws IOException {
+		this.gameController = gameController;
 		init();
+		
 	}
 	
 	 private void init() throws IOException {
 	        
 	        setSize(1920,1000);
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		 	add(new JTablero());
+		 	add(new JTablero(gameController));
 	        setResizable(false);
 	        setTitle("Mario Party");
 	        setLocationRelativeTo(null);
 	        
 	    }
 	
-	public static void main(String[] args) throws IOException {
-           
-		JMarioParty ex = new JMarioParty();
-        ex.setVisible(true);
-
-	}
 
 }

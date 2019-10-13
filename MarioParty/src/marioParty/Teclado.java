@@ -27,7 +27,8 @@ public class Teclado implements KeyListener {
 			case KeyEvent.VK_UP:
 					this.mov = Movimientos.ARRIBA;
 				break;
-			case KeyEvent.VK_ESCAPE:
+			case KeyEvent.VK_ENTER:
+				this.mov = Movimientos.DADO;
 				break;
 			default:
 				break;
@@ -52,8 +53,8 @@ public class Teclado implements KeyListener {
 		case KeyEvent.VK_UP:
 			this.mov = Movimientos.NULL;
 			break;
-		case KeyEvent.VK_ESCAPE:
-			//Agregar comando para salir
+		case KeyEvent.VK_ENTER:
+			this.mov = Movimientos.NULL;
 			break;
 		default:
 			break;
