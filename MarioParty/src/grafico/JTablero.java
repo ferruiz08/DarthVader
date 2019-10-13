@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class JTablero extends JPanel {
     
 
     private boolean leftDirection = false;
-    private boolean rightDirection = true;
+    private boolean rightDirection = false;
     private boolean upDirection = false;
     private boolean downDirection = false;
     
@@ -56,13 +57,13 @@ public class JTablero extends JPanel {
 	private int puntajeGanador;
 	private Tablero tablero;
 	ArrayList<Player> listPlayer = new ArrayList<Player>();
+	private Teclado teclado = new Teclado();
 	
    public JTablero() throws IOException {
 	   init();
    }
     
     private void init() throws IOException {
-    	addKeyListener(new TAdapter());
         setBackground(Color.black);
         setFocusable(true);
 
@@ -76,7 +77,7 @@ public class JTablero extends JPanel {
 		turnoPlayer = 0;
         cantPlayers = 1;
         listPlayer.add(tablero.generarPlayer(0, new Ubicacion(100,100)));
-
+        iniciarTurno();
     }
     
     private void loadImages() {
@@ -154,16 +155,17 @@ public class JTablero extends JPanel {
 			movimientosPosibles = tablero.movimientosPosibles(player.getCasillero(), player.getCasilleroAnterior());
 			if (movimientosPosibles.size() > 1) {
 	            //Chequeo que el movimiento ingresado sea posible
-	            if (downDirection && tablero.goDown(player.getCasillero()) != null) 
-	            	mover(player,tablero.goDown(player.getCasillero()));
-	            if (upDirection && tablero.goUp(player.getCasillero()) != null) 
-		            mover(player,tablero.goUp(player.getCasillero()));	
-		        if (leftDirection && tablero.goLeft(player.getCasillero()) != null) 
-			        mover(player,tablero.goLeft(player.getCasillero()));		
-		        if (rightDirection && tablero.goRight(player.getCasillero()) != null) 
-			        mover(player,tablero.goRight(player.getCasillero()));	
-	            	  	
-	            	movimientoHechos++;	            
+				//while(teclado.mov != null) {
+	            	if (teclado.mov == Movimientos.ABAJO && tablero.goDown(player.getCasillero()) != null) 
+		            	mover(player,tablero.goDown(player.getCasillero()));
+		            if (teclado.mov == Movimientos.ARRIBA && tablero.goUp(player.getCasillero()) != null) 
+			            mover(player,tablero.goUp(player.getCasillero()));	
+			        if (teclado.mov == Movimientos.IZQUIERDA && tablero.goLeft(player.getCasillero()) != null) 
+				        mover(player,tablero.goLeft(player.getCasillero()));		
+			        if (teclado.mov == Movimientos.DERECHA && tablero.goRight(player.getCasillero()) != null) 
+				        mover(player,tablero.goRight(player.getCasillero()));	
+	          //  }	  	
+	            movimientoHechos++;	            
 	          
 			}
 			else {
@@ -192,40 +194,10 @@ public class JTablero extends JPanel {
   			}
   			repaint();
   		}
+  		
 	
     
 
-	 private class TAdapter extends KeyAdapter {
 
-	        @Override
-	        public void keyPressed(KeyEvent e) {
-
-	            int key = e.getKeyCode();
-
-	            if ((key == KeyEvent.VK_LEFT) && (!rightDirection)) {
-	                leftDirection = true;
-	                upDirection = false;
-	                downDirection = false;
-	            }
-
-	            if ((key == KeyEvent.VK_RIGHT) && (!leftDirection)) {
-	                rightDirection = true;
-	                upDirection = false;
-	                downDirection = false;
-	            }
-
-	            if ((key == KeyEvent.VK_UP) && (!downDirection)) {
-	                upDirection = true;
-	                rightDirection = false;
-	                leftDirection = false;
-	            }
-
-	            if ((key == KeyEvent.VK_DOWN) && (!upDirection)) {
-	                downDirection = true;
-	                rightDirection = false;
-	                leftDirection = false;
-	            }
-	        }
-	    }
 	
 }
