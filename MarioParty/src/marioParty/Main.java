@@ -16,8 +16,7 @@ public class Main {
 		JMarioParty ex = new JMarioParty(gameController);
         ex.setVisible(true);
         
-        
-        Thread.sleep(100);
+        Thread.sleep(5000);
         gameController.startGame();
 	}
 

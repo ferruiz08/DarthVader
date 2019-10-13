@@ -3,7 +3,7 @@ package grafico;
 import javax.swing.JPanel;
 
 
-public class ThreadPaint {
+public class ThreadPaint extends Thread{
 
 	JPanel jTablero;
 	
@@ -14,6 +14,7 @@ public class ThreadPaint {
 	
 	public void run() {
 		while(true) {
+			
 			jTablero.repaint();
 		}
 	}

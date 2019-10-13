@@ -26,7 +26,9 @@ public class JMarioParty extends JFrame {
 	        setResizable(false);
 	        setTitle("Mario Party");
 	        setLocationRelativeTo(null);
+	        
 	        ThreadPaint threadPaint = new ThreadPaint(jTablero);
+	        threadPaint.start();
 	    }
 	
 
