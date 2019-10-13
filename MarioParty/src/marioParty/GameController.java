@@ -12,7 +12,7 @@ public class GameController  {
 	boolean finDeJuego;
 	private Tablero tablero = new Tablero();
 	ArrayList<Player> listPlayer = new ArrayList<Player>();
-	Movimientos movimiento = null;
+	public Movimientos movimiento = null;
     
 	public HashMap<Ubicacion,Casillero> getTablero() {
 		return tablero.getTablero();
@@ -56,11 +56,13 @@ public class GameController  {
 	 public void ejecutarTurno(Player player) {
 	    	ArrayList<Casillero> movimientosPosibles;
 			int movimientosRestantes = 0;
-			while(movimientosRestantes == 0)
+			while(movimientosRestantes == 0) {
+				System.out.println(movimiento);
 				if (movimiento == Movimientos.DADO)
 					movimientosRestantes = player.tirarDado();
+			}
+			System.out.println(movimientosRestantes);	
 			int movimientoHechos = 0;
-			System.out.println(movimientosRestantes);
 			while (movimientoHechos < movimientosRestantes && !finDeJuego) {
 				//Pregunto que movimientos puede hacer
 				movimientosPosibles = tablero.movimientosPosibles(player.getCasillero(), player.getCasilleroAnterior());
@@ -68,7 +70,8 @@ public class GameController  {
 		            //Chequeo que el movimiento ingresado sea posible
 					boolean flagMovimientoHecho = false;
 					while(!flagMovimientoHecho) {
-		            	
+						movimiento = null;
+						System.out.println(movimiento);
 						if (movimiento == Movimientos.ABAJO && tablero.goDown(player.getCasillero()) != null) {
 							mover(player,tablero.goDown(player.getCasillero()));
 							flagMovimientoHecho = true;

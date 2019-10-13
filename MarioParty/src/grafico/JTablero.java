@@ -120,31 +120,31 @@ public class JTablero extends JPanel implements KeyListener {
 		//if (mov == Movimientos.NULL) {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_DOWN:
-					this.mov = Movimientos.ABAJO;
+					mov = Movimientos.ABAJO;
 				break;
 			case KeyEvent.VK_RIGHT:
-					this.mov = Movimientos.DERECHA;
+					mov = Movimientos.DERECHA;
 				break;
 			case KeyEvent.VK_LEFT:
-					this.mov = Movimientos.IZQUIERDA;
+					mov = Movimientos.IZQUIERDA;
 				break;
 			case KeyEvent.VK_UP:
-					this.mov = Movimientos.ARRIBA;
+					mov = Movimientos.ARRIBA;
 				break;
 			case KeyEvent.VK_ENTER:
-				this.mov = Movimientos.DADO;
+				mov = Movimientos.DADO;
 				break;
 			default:
 				break;
 			}
-			gameController.setMovimiento(mov);
+			gameController.movimiento = mov;
 		//}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 
-/*
+
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_DOWN:
 			this.mov = Movimientos.NULL;
@@ -164,8 +164,8 @@ public class JTablero extends JPanel implements KeyListener {
 		default:
 			break;
 		}
-		gameController.setMovimiento(mov);
-	*/
+		gameController.movimiento = mov;
+	
 	}
 	
 
