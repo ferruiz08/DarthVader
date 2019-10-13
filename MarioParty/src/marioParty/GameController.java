@@ -29,7 +29,6 @@ public class GameController  {
 		this.turnoPlayer = 0;
 		this.cantPlayers = 1;
 		listPlayer.add(tablero.generarPlayer(0, new Ubicacion(100,100)));
-		listPlayer.add(tablero.generarPlayer(1, new Ubicacion(100,100)));
 		
 	}
 
