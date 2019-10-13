@@ -29,7 +29,7 @@ public class GameController  {
 		this.turnoPlayer = 0;
 		this.cantPlayers = 1;
 		listPlayer.add(tablero.generarPlayer(0, new Ubicacion(100,100)));
-		
+		iniciarTurno();
 	}
 
 	public void generarCasilleros() {
@@ -62,7 +62,8 @@ public class GameController  {
 				if (movimientosPosibles.size() > 1) {
 		            //Chequeo que el movimiento ingresado sea posible
 				//	while(teclado.mov != null) {
-		            	if (teclado.mov == Movimientos.ABAJO && tablero.goDown(player.getCasillero()) != null) 
+		            	
+						if (teclado.mov == Movimientos.ABAJO && tablero.goDown(player.getCasillero()) != null) 
 			            	mover(player,tablero.goDown(player.getCasillero()));
 			            if (teclado.mov == Movimientos.ARRIBA && tablero.goUp(player.getCasillero()) != null) 
 				            mover(player,tablero.goUp(player.getCasillero()));	

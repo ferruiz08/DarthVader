@@ -9,6 +9,7 @@ import marioParty.GameController;
 public class JMarioParty extends JFrame {
 
 	GameController gameController;
+	JTablero jTablero;
 	
 	public JMarioParty(GameController gameController) throws IOException {
 		this.gameController = gameController;
@@ -20,11 +21,12 @@ public class JMarioParty extends JFrame {
 	        
 	        setSize(1920,1000);
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		 	add(new JTablero(gameController));
+		 	jTablero = new JTablero(gameController);
+	        add(jTablero);
 	        setResizable(false);
 	        setTitle("Mario Party");
 	        setLocationRelativeTo(null);
-	        
+	        ThreadPaint threadPaint = new ThreadPaint(jTablero);
 	    }
 	
 
