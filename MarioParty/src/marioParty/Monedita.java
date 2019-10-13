@@ -2,17 +2,16 @@ package marioParty;
 
 public class Monedita extends PowerUp {
 
-	public int puntosMoneda;
-	
-	public Monedita(int tipo , int puntosMoneda) {
-		this.tipo = tipo;
-		this.puntosMoneda = puntosMoneda;
-	}
+	private int puntosMonedita = 10;
 	
 	public void accionPowerUp(Player player) {
 		
-		player.addPoints(puntosMoneda);
+		player.addPoints(puntosMonedita);
 		
+	}
+	
+	public boolean soyMonedita() {
+		return true;
 	}
 	
 }

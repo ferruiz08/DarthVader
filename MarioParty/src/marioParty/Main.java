@@ -27,7 +27,7 @@ public class Main {
 		System.out.print("Ingresa la cantidad de puntos MAXIMA: ");
 		limite = entrada.nextInt();
 
-		gameController.startGame(cant,limite);
+		//gameController.startGame(cant,limite);
 
 	}
 

@@ -1,14 +1,16 @@
 package grafico;
 
+import java.io.IOException;
+
 import javax.swing.JFrame;
 
 public class JMarioParty extends JFrame {
 
-	public JMarioParty() {
+	public JMarioParty() throws IOException {
 		init();
 	}
 	
-	 private void init() {
+	 private void init() throws IOException {
 	        
 	        setSize(1920,1000);
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -19,7 +21,7 @@ public class JMarioParty extends JFrame {
 	        
 	    }
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
            
 		JMarioParty ex = new JMarioParty();
         ex.setVisible(true);

@@ -1,14 +1,18 @@
 package marioParty;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import com.sun.prism.Image;
 
-public class GameController {
+
+public class GameController  {
 	
 	int contTurnos;
 	int turnoPlayer;
@@ -17,32 +21,41 @@ public class GameController {
 	boolean finDeJuego;
 	private static Scanner teclado;
 	private static String seguir;
-	GameBoard gameboard = new GameBoard();
+	private Tablero tablero = new Tablero();
 	ArrayList<Player> listPlayer = new ArrayList<Player>();
-
+    
+	public HashMap<Ubicacion,Casillero> getTablero() {
+		return tablero.getTablero();
+	}
 	
-	public void startGame(int cantPlayers, int puntajeGanador) throws IOException {
-		this.puntajeGanador = puntajeGanador;
+	public void startGame() throws IOException {
+    	
+		this.puntajeGanador = 100;
 		this.contTurnos = 0;
 		this.turnoPlayer = 0;
-		this.cantPlayers = cantPlayers;
-		for (int i = 0 ; i < cantPlayers ; i++) {
-			Player player = new Player(i);
-			listPlayer.add(player);
-		}
+		this.cantPlayers = 2;
+		listPlayer.add(tablero.generarPlayer(0, new Ubicacion(100,100)));
+		listPlayer.add(tablero.generarPlayer(1, new Ubicacion(100,100)));
 		
+	}
+	/*	
 		//Genera los caminos del tablero cuando inicia el juego
-		gameboard.generarCaminos();
+		generarCasilleros();
 		//Genera los powerups iniciales
-		gameboard.generarPowerUpInicio();
+		tablero.generarPowerUpInicio();
 		
 		while(!finDeJuego) {
 			iniciarTurno();
 		}
-		
-	}
-		
+		*/
 	
+
+	public void generarCasilleros() {
+		tablero.generarCasilleros();
+	}
+	
+	
+	/*
 	public void iniciarTurno() throws IOException {
 		
 			System.out.println("----------- NUEVO TURNO ------------");
@@ -51,7 +64,7 @@ public class GameController {
 			ejecutarTurno(listPlayer.get(turnoPlayer));
 			contTurnos++;
 			//Genero un powerup en un lugar aleatorio
-			gameboard.generarPowerUpTurno();
+			tablero.generarPowerUpTurno();
 			//Si el jugador tiene un turno extra no cambio el turno al siguiente jugador
 			if (!listPlayer.get(turnoPlayer).hasExtraTurn())
 				turnoPlayer++;
@@ -61,7 +74,6 @@ public class GameController {
 	
 	//Ejecuta el turno del jugador. Se llama en el GameController en cada turno
 		public void ejecutarTurno(Player player) throws IOException {
-			player.imprimirUbicacion();
 			System.out.println("\t **Nuevo Movimiento**");
 			System.out.println("Puntaje Actual: " + player.getPoints());
 			ArrayList<String> movimientosPosibles = new ArrayList<String>();
@@ -70,7 +82,7 @@ public class GameController {
 			int movimientoHechos = 0;
 			while (movimientoHechos < movimientosRestantes && !finDeJuego) {
 				//Pregunto que movimientos puede hacer
-				movimientosPosibles = gameboard.movimientosPosibles(player.getUbicacion(), player.getUbicacionAnterior());
+				movimientosPosibles = tablero.movimientosPosibles(player.getUbicacion(), player.getUbicacionAnterior());
 				if (movimientosPosibles.size() > 1) {
 					//Si hay mas de uno posible, pido que se ingrese por pantalla
 					System.out.print("Movimiento Posible: ");
@@ -106,13 +118,13 @@ public class GameController {
 		private void mover(Player player , String direccion) {
 			//Guardo la ubicacion para saber que en el proximo movimiento no puedo volver
 			player.setUbicacionAnterior(player.getUbicacion());
-			player.setUbicacion(gameboard.mover(player.getUbicacion(), direccion));
+			player.setUbicacion(tablero.mover(player.getUbicacion(), direccion));
 			//Despues de mover inserto el jugador en el casillero
-			gameboard.setJugadorCasillero(player, player.getUbicacion());
+			tablero.setJugadorCasillero(player, player.getUbicacion());
 			//Retiro el jugador del casillero
-			gameboard.removeJugadorCasillero(player, player.getUbicacionAnterior());
+			tablero.removeJugadorCasillero(player, player.getUbicacionAnterior());
 			//Chequeo si en el casillero hay un powerup
-			gameboard.accionPowerUp(player, player.getUbicacion());
+			tablero.accionPowerUp(player, player.getUbicacion());
 			//Imprimo el puntaje del jugador
 			System.out.println("\t **Nuevo Movimiento**");
 			System.out.println("Puntaje Actual: " + player.getPoints());
@@ -122,5 +134,5 @@ public class GameController {
 				 System.out.println("######## El jugador " + player.getId() + "  Gano #########");
 			}
 		}
-		
+	*/	
 }

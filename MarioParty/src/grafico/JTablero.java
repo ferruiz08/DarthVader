@@ -17,19 +17,23 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import marioParty.GameController;
+import marioParty.*;
 
-public class JTablero extends JPanel implements ActionListener{
+
+public class JTablero extends JPanel {
 
 	private final int WIDTH = 1920;
     private final int HEIGHT = 1000;
 	
-    private GameController gameController;
     private Image iBackground;
     private Image iBlock;
     private Image iMonedita;
@@ -39,26 +43,40 @@ public class JTablero extends JPanel implements ActionListener{
     private Image iMegaman;
     private Image iPrincesa;
     
-    
+
     private boolean leftDirection = false;
     private boolean rightDirection = true;
     private boolean upDirection = false;
     private boolean downDirection = false;
-    private boolean inGame = true;
-   
-   public JTablero() {
+    
+    private boolean finDeJuego = false;
+    private int contTurnos;
+    private int turnoPlayer;
+	private int cantPlayers;
+	private int puntajeGanador;
+	private Tablero tablero;
+	ArrayList<Player> listPlayer = new ArrayList<Player>();
+	
+   public JTablero() throws IOException {
 	   init();
    }
     
-    private void init() {
+    private void init() throws IOException {
     	addKeyListener(new TAdapter());
         setBackground(Color.black);
         setFocusable(true);
 
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         loadImages();
-        gameController = new GameController();
- 
+        tablero = new Tablero();
+        tablero.generarCasilleros();
+        
+        puntajeGanador = 100;
+        contTurnos = 0;
+		turnoPlayer = 0;
+        cantPlayers = 1;
+        listPlayer.add(tablero.generarPlayer(0, new Ubicacion(100,100)));
+
     }
     
     private void loadImages() {
@@ -96,86 +114,118 @@ public class JTablero extends JPanel implements ActionListener{
     }
     
     @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        doDrawing(g);
-    }
-    
-    private void doDrawing(Graphics g) {
-    
+    public void paint(Graphics g) {
+        super.paint(g);
+        HashMap<Ubicacion,Casillero> mapCasilleros = tablero.getTablero();
     	g.drawImage(iBackground, 0, 0, this);
-    	g.drawImage(iBlock, 100, 100, this);
-    	g.drawImage(iBlock, 100, 250, this);
-    	g.drawImage(iBlock, 100, 400, this);
-    	g.drawImage(iBlock, 100, 550, this);
-    	g.drawImage(iBlock, 100, 700, this);
-    	g.drawImage(iBlock, 250, 100, this);
-    	g.drawImage(iBlock, 250, 400, this);
-    	g.drawImage(iBlock, 250, 700, this);
-    	g.drawImage(iBlock, 400, 100, this);
-    	g.drawImage(iBlock, 400, 250, this);
-    	g.drawImage(iBlock, 400, 400, this);
-    	g.drawImage(iBlock, 400, 700, this);
-    	g.drawImage(iBlock, 550, 100, this);
-    	g.drawImage(iBlock, 550, 400, this);
-    	g.drawImage(iBlock, 550, 700, this);
-    	g.drawImage(iBlock, 700, 100, this);
-    	g.drawImage(iBlock, 700, 250, this);
-    	g.drawImage(iBlock, 700, 400, this);
-    	g.drawImage(iBlock, 700, 550, this);
-    	g.drawImage(iBlock, 700, 700, this);
-    	g.drawImage(iBlock, 850, 100, this);
-    	g.drawImage(iBlock, 850, 700, this);
-    	g.drawImage(iBlock, 1000, 100, this);
-    	g.drawImage(iBlock, 1000, 250, this);
-    	g.drawImage(iBlock, 1000, 400, this);
-    	g.drawImage(iBlock, 1000, 550, this);
-    	g.drawImage(iBlock, 1000, 700, this);
-    	g.drawImage(iMario, 120, 100, this);
-    	g.drawImage(iLuigi, 180, 100, this);
-    	g.drawImage(iPrincesa, 120, 175, this);
-    	g.drawImage(iMegaman, 180, 175, this);
+    	Iterator iter = mapCasilleros.entrySet().iterator();
+    	while(iter.hasNext()) {
+			Map.Entry map = (Map.Entry)iter.next();
+			g.drawImage(iBlock, mapCasilleros.get(map.getKey()).getUbicacionX(), mapCasilleros.get(map.getKey()).getUbicacionY(), this);
+			for (int i = 0 ; i < mapCasilleros.get(map.getKey()).cantPlayers() ; i++)
+				g.drawImage(iMario, mapCasilleros.get(map.getKey()).getPlayer(i).getUbicacionX(), mapCasilleros.get(map.getKey()).getPlayer(i).getUbicacionY(), this);
 
+		}
+		
+    	
     	
     }
-
-    @Override
-	public void actionPerformed(ActionEvent arg0) {
-    	repaint();
-	}
     
-    private class TAdapter extends KeyAdapter {
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-
-            int key = e.getKeyCode();
-
-            if ((key == KeyEvent.VK_LEFT) && (!rightDirection)) {
-                leftDirection = true;
-                upDirection = false;
-                downDirection = false;
-            }
-
-            if ((key == KeyEvent.VK_RIGHT) && (!leftDirection)) {
-                rightDirection = true;
-                upDirection = false;
-                downDirection = false;
-            }
-
-            if ((key == KeyEvent.VK_UP) && (!downDirection)) {
-                upDirection = true;
-                rightDirection = false;
-                leftDirection = false;
-            }
-
-            if ((key == KeyEvent.VK_DOWN) && (!upDirection)) {
-                downDirection = true;
-                rightDirection = false;
-                leftDirection = false;
-            }
-        }
+    
+    private void iniciarTurno() {
+    	
+    	ejecutarTurno(listPlayer.get(turnoPlayer));
+		contTurnos++;
+		//Genero un powerup en un lugar aleatorio
+		tablero.generarPowerUpTurno();
+		//Si el jugador tiene un turno extra no cambio el turno al siguiente jugador
+		if (!listPlayer.get(turnoPlayer).hasExtraTurn())
+			turnoPlayer++;
+		if (turnoPlayer >= cantPlayers)
+			turnoPlayer = 0;
     }
+ 
+    public void ejecutarTurno(Player player) {
+    	ArrayList<Casillero> movimientosPosibles;
+		int movimientosRestantes = player.tirarDado();
+		int movimientoHechos = 0;
+		while (movimientoHechos < movimientosRestantes && !finDeJuego) {
+			//Pregunto que movimientos puede hacer
+			movimientosPosibles = tablero.movimientosPosibles(player.getCasillero(), player.getCasilleroAnterior());
+			if (movimientosPosibles.size() > 1) {
+	            //Chequeo que el movimiento ingresado sea posible
+	            if (downDirection && tablero.goDown(player.getCasillero()) != null) 
+	            	mover(player,tablero.goDown(player.getCasillero()));
+	            if (upDirection && tablero.goUp(player.getCasillero()) != null) 
+		            mover(player,tablero.goUp(player.getCasillero()));	
+		        if (leftDirection && tablero.goLeft(player.getCasillero()) != null) 
+			        mover(player,tablero.goLeft(player.getCasillero()));		
+		        if (rightDirection && tablero.goRight(player.getCasillero()) != null) 
+			        mover(player,tablero.goRight(player.getCasillero()));	
+	            	  	
+	            	movimientoHechos++;	            
+	          
+			}
+			else {
+			    mover(player,movimientosPosibles.get(0));
+				movimientoHechos++;
+
+			}
+		}	
+    }
+    
+    
+    //Mueve al jugador una posicion en la direccion indicada
+  		private void mover(Player player , Casillero casillero) {
+  			//Guardo la ubicacion para saber que en el proximo movimiento no puedo volver
+  			player.setCasilleroAnterior(player.getCasillero());
+  			player.setCasillero(casillero);
+  			player.updateUbicacion();
+  			//Despues de mover inserto el jugador en el casillero
+  			tablero.setJugadorCasillero(player, player.getCasillero());
+  			//Retiro el jugador del casillero
+  			tablero.removeJugadorCasillero(player, player.getCasilleroAnterior());
+  			//Chequeo si en el casillero hay un powerup
+  			tablero.accionPowerUp(player, player.getUbicacion());	
+  			if(player.getPoints()>=puntajeGanador) {
+  				 finDeJuego = true;
+  			}
+  			repaint();
+  		}
+	
+    
+
+	 private class TAdapter extends KeyAdapter {
+
+	        @Override
+	        public void keyPressed(KeyEvent e) {
+
+	            int key = e.getKeyCode();
+
+	            if ((key == KeyEvent.VK_LEFT) && (!rightDirection)) {
+	                leftDirection = true;
+	                upDirection = false;
+	                downDirection = false;
+	            }
+
+	            if ((key == KeyEvent.VK_RIGHT) && (!leftDirection)) {
+	                rightDirection = true;
+	                upDirection = false;
+	                downDirection = false;
+	            }
+
+	            if ((key == KeyEvent.VK_UP) && (!downDirection)) {
+	                upDirection = true;
+	                rightDirection = false;
+	                leftDirection = false;
+	            }
+
+	            if ((key == KeyEvent.VK_DOWN) && (!upDirection)) {
+	                downDirection = true;
+	                rightDirection = false;
+	                leftDirection = false;
+	            }
+	        }
+	    }
 	
 }

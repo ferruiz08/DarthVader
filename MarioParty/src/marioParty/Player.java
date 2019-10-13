@@ -10,19 +10,46 @@ public class Player {
 	
 	private int id;
 	private int points;
-	private Ubicacion ubicacion; //Ubicacion actual en el tablero
-	private Ubicacion ubicacionAnterior; //Ubicacion anterior en el tablero para que no me deje regresar
+	private Casillero casillero; //Ubicacion actual en el tablero
+	private Casillero casilleroAnterior; //Ubicacion anterior en el tablero para que no me deje regresar
+	private Ubicacion ubicacion;
+	private int ubicacionOffsetX;
+	private int ubicacionOffsetY;
+	private int movimiento = 150;
 	private boolean extraTurn; //Si agarro una estrella tengo que setear este bit e informar al gameController que tengo otro turno mas
 	
-	public Player(int id) {
+	
+	public Player(int id , Casillero casillero) {
 		this.id = id;
+		if (id == 0) {
+			ubicacionOffsetX = 0;
+			ubicacionOffsetY = 0;
+		}
+		if (id == 1) {
+			ubicacionOffsetX = 100;
+			ubicacionOffsetY = 100;
+		}
+			
 		this.points = 0;
-		ubicacion = new Ubicacion(0,0);
-		ubicacionAnterior = new Ubicacion(0,0);
+		this.casillero = casillero;
+		this.casilleroAnterior = casillero;
+		this.ubicacion = new Ubicacion(casillero.getUbicacionX() + ubicacionOffsetX,casillero.getUbicacionY() + ubicacionOffsetY);
 	}
 	
 	public int getId() {
 		return this.id;
+	}
+	
+	public Ubicacion getUbicacion() {
+		return ubicacion;
+	}
+	
+	public int getUbicacionX() {
+		return ubicacion.positionX;
+	}
+	
+	public int getUbicacionY() {
+		return ubicacion.positionY;
 	}
 	
 	//Suma puntos al jugador. Se utiliza cuando agarra una monedita o segun el ranking del minijuego
@@ -45,30 +72,29 @@ public class Player {
 		return extraTurn;
 	}
 	
-	public Ubicacion getUbicacion() {
-		return this.ubicacion;
+	public Casillero getCasillero() {
+		return this.casillero;
 	}
-	public Ubicacion getUbicacionAnterior() {
-		return this.ubicacionAnterior;
-	}
-	
-	public void setUbicacion(Ubicacion ubicacion) {
-		this.ubicacion.positionX = ubicacion.positionX;
-		this.ubicacion.positionY = ubicacion.positionY;
+	public Casillero getCasilleroAnterior() {
+		return this.casilleroAnterior;
 	}
 	
-	public void setUbicacionAnterior(Ubicacion ubicacion) {
-		this.ubicacionAnterior.positionX = ubicacion.positionX;
-		this.ubicacionAnterior.positionY = ubicacion.positionY;
+	public void setCasillero(Casillero casillero) {
+		this.casillero = casillero;
 	}
 	
-	public void imprimirUbicacion() {
-		System.out.println("Posicion Actual:( " + ubicacion.positionX + " , " + ubicacion.positionY + " )");
+	public void setCasilleroAnterior(Casillero casillero) {
+		this.casilleroAnterior = casillero;
 	}
+	
 	
 	public int tirarDado() {
 		Random random = new Random();
 		return random.nextInt(6)+1;
+	}
+	
+	public void updateUbicacion() {
+		this.ubicacion = new Ubicacion(casillero.getUbicacionX() + ubicacionOffsetX,casillero.getUbicacionY() + ubicacionOffsetY);
 	}
 	
 }
