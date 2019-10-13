@@ -20,12 +20,14 @@ public class JMarioParty extends JFrame {
 	 private void init() throws IOException {
 	        
 	        setSize(1920,1000);
+	        setResizable(false);
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		 	jTablero = new JTablero(gameController);
 	        add(jTablero);
-	        setResizable(false);
+	        pack();
+	        setVisible(true); 	
 	        setTitle("Mario Party");
-	        setLocationRelativeTo(null);
+	        //setLocationRelativeTo(null);
 	        
 	        ThreadPaint threadPaint = new ThreadPaint(jTablero);
 	        threadPaint.start();

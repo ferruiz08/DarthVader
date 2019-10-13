@@ -14,9 +14,9 @@ public class Main {
 		gameController.generarCasilleros();
 		
 		JMarioParty ex = new JMarioParty(gameController);
-        ex.setVisible(true);
         
-        Thread.sleep(5000);
+        
+        Thread.sleep(1000);
         gameController.startGame();
 	}
 

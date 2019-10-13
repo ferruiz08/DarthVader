@@ -30,7 +30,7 @@ import javax.swing.Timer;
 import marioParty.*;
 
 
-public class JTablero extends JPanel {
+public class JTablero extends JPanel implements KeyListener {
 
 	private final int WIDTH = 1920;
     private final int HEIGHT = 1000;
@@ -44,6 +44,7 @@ public class JTablero extends JPanel {
     private Image iMegaman;
     private Image iPrincesa;
     GameController gameController;
+    public Movimientos mov;
 	
    public JTablero(GameController gameController) throws IOException {
 	   this.gameController = gameController;
@@ -52,7 +53,8 @@ public class JTablero extends JPanel {
    }
     
     private void init() throws IOException {
-        setBackground(Color.black);
+    	addKeyListener(this);
+    	setBackground(Color.black);
         setFocusable(true);
 
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -109,15 +111,71 @@ public class JTablero extends JPanel {
 				g.drawImage(iMario, mapCasilleros.get(map.getKey()).getPlayer(i).getUbicacionX(), mapCasilleros.get(map.getKey()).getPlayer(i).getUbicacionY(), this);
 
 		}
-		
-    	
-    	
+ 	
     }
     
-  		
+    @Override
+	public void keyPressed(KeyEvent e) {
+		
+		//if (mov == Movimientos.NULL) {
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_DOWN:
+					this.mov = Movimientos.ABAJO;
+				break;
+			case KeyEvent.VK_RIGHT:
+					this.mov = Movimientos.DERECHA;
+				break;
+			case KeyEvent.VK_LEFT:
+					this.mov = Movimientos.IZQUIERDA;
+				break;
+			case KeyEvent.VK_UP:
+					this.mov = Movimientos.ARRIBA;
+				break;
+			case KeyEvent.VK_ENTER:
+				this.mov = Movimientos.DADO;
+				break;
+			default:
+				break;
+			}
+			gameController.setMovimiento(mov);
+		//}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+
+/*
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_DOWN:
+			this.mov = Movimientos.NULL;
+			break;
+		case KeyEvent.VK_RIGHT:
+			this.mov = Movimientos.NULL;
+			break;
+		case KeyEvent.VK_LEFT:
+			this.mov = Movimientos.NULL;
+			break;
+		case KeyEvent.VK_UP:
+			this.mov = Movimientos.NULL;
+			break;
+		case KeyEvent.VK_ENTER:
+			this.mov = Movimientos.NULL;
+			break;
+		default:
+			break;
+		}
+		gameController.setMovimiento(mov);
+	*/
+	}
+	
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 	
     
-
 
 	
 }

@@ -12,7 +12,7 @@ public class GameController  {
 	boolean finDeJuego;
 	private Tablero tablero = new Tablero();
 	ArrayList<Player> listPlayer = new ArrayList<Player>();
-	private Teclado teclado = new Teclado();
+	Movimientos movimiento = null;
     
 	public HashMap<Ubicacion,Casillero> getTablero() {
 		return tablero.getTablero();
@@ -20,6 +20,10 @@ public class GameController  {
 	
 	public GameController getGameController() {
 		return this;
+	}
+	
+	public void setMovimiento(Movimientos movimiento) {
+		this.movimiento = movimiento;
 	}
 	
 	public void startGame() {
@@ -52,27 +56,45 @@ public class GameController  {
 	 public void ejecutarTurno(Player player) {
 	    	ArrayList<Casillero> movimientosPosibles;
 			int movimientosRestantes = 0;
-			//while(teclado.mov != null)
-			//	if (teclado.mov == Movimientos.DADO)
+			while(movimientosRestantes == 0)
+				if (movimiento == Movimientos.DADO)
 					movimientosRestantes = player.tirarDado();
 			int movimientoHechos = 0;
+			System.out.println(movimientosRestantes);
 			while (movimientoHechos < movimientosRestantes && !finDeJuego) {
 				//Pregunto que movimientos puede hacer
 				movimientosPosibles = tablero.movimientosPosibles(player.getCasillero(), player.getCasilleroAnterior());
 				if (movimientosPosibles.size() > 1) {
 		            //Chequeo que el movimiento ingresado sea posible
-				//	while(teclado.mov != null) {
+					boolean flagMovimientoHecho = false;
+					while(!flagMovimientoHecho) {
 		            	
-						if (teclado.mov == Movimientos.ABAJO && tablero.goDown(player.getCasillero()) != null) 
-			            	mover(player,tablero.goDown(player.getCasillero()));
-			            if (teclado.mov == Movimientos.ARRIBA && tablero.goUp(player.getCasillero()) != null) 
-				            mover(player,tablero.goUp(player.getCasillero()));	
-				        if (teclado.mov == Movimientos.IZQUIERDA && tablero.goLeft(player.getCasillero()) != null) 
-					        mover(player,tablero.goLeft(player.getCasillero()));		
-				        if (teclado.mov == Movimientos.DERECHA && tablero.goRight(player.getCasillero()) != null) 
-					        mover(player,tablero.goRight(player.getCasillero()));	
-		      //      }	  	
-		            movimientoHechos++;	            
+						if (movimiento == Movimientos.ABAJO && tablero.goDown(player.getCasillero()) != null) {
+							mover(player,tablero.goDown(player.getCasillero()));
+							flagMovimientoHecho = true;
+							movimientoHechos++;
+						}
+			            	
+			            if (movimiento == Movimientos.ARRIBA && tablero.goUp(player.getCasillero()) != null) {
+			            	mover(player,tablero.goUp(player.getCasillero()));
+			            	flagMovimientoHecho = true;
+			            	movimientoHechos++;
+			            }
+				            	
+				        if (movimiento == Movimientos.IZQUIERDA && tablero.goLeft(player.getCasillero()) != null) {
+				        	 mover(player,tablero.goLeft(player.getCasillero()));
+				        	 flagMovimientoHecho = true;
+				        	 movimientoHechos++;
+				        }
+					       		
+				        if (movimiento == Movimientos.DERECHA && tablero.goRight(player.getCasillero()) != null) {
+				        	mover(player,tablero.goRight(player.getCasillero()));	
+				        	flagMovimientoHecho = true;
+				        	movimientoHechos++;
+				        }
+					        
+		            }	  	
+		           	            
 		          
 				}
 				else {
